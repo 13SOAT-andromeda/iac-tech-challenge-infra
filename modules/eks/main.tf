@@ -37,6 +37,19 @@ module "eks" {
       }
     }
   }
+
+  cluster_addons = {
+    coredns = {
+      most_recent = true
+    }
+    kube-proxy = {
+      most_recent = true
+    }
+    vpc-cni = {
+      most_recent = true
+    }
+  }
+
   kms_key_administrators = [var.role_arn]
   kms_key_users          = [var.role_arn, var.node_role_arn]
 
