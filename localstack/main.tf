@@ -5,6 +5,14 @@ provider "aws" {
   skip_credentials_validation = true
   skip_metadata_api_check     = true
   skip_requesting_account_id  = true
+  
+  default_tags {
+    tags = {
+      Terraform   = "true"
+      Environment = "localstack"
+      Project     = "tech-challenge"
+    }
+  }
 }
 
 locals {
@@ -22,4 +30,12 @@ module "eks" {
   vpc_id       = module.vpc.vpc_id
   subnet_ids   = module.vpc.private_subnets
   role_arn     = var.cluster_role_arn
+}
+
+module "rds" {
+  source                = "../modules/rds"
+  db_password           = var.db_password
+  vpc_id                = module.vpc.vpc_id
+  subnet_ids            = module.vpc.private_subnets
+  eks_security_group_id = module.eks.cluster_security_group_id
 }
