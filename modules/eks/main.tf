@@ -45,6 +45,7 @@ resource "aws_eks_node_group" "main" {
 }
 
 resource "aws_iam_role_policy_attachment" "ecr_readonly" {
+  count      = var.create_policy_attachment ? 1 : 0
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
   role       = var.role_name
 }

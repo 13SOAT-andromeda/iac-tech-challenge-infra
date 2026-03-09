@@ -23,3 +23,9 @@ variable "role_name" {
   type        = string
   default     = "LabRole"
 }
+
+variable "create_policy_attachment" {
+  description = "Whether to create the IAM policy attachment for ECR"
+  type        = bool
+  default     = true
+}
