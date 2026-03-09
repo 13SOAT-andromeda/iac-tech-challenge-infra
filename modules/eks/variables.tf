@@ -17,3 +17,9 @@ variable "role_arn" {
   description = "IAM role ARN for the EKS cluster"
   type        = string
 }
+
+variable "role_name" {
+  description = "IAM role name for the EKS cluster (used for policy attachments)"
+  type        = string
+  default     = "LabRole"
+}

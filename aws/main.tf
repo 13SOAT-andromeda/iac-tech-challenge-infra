@@ -1,5 +1,12 @@
 provider "aws" {
   region = "us-east-1"
+  default_tags {
+    tags = {
+      Terraform   = "true"
+      Environment = "dev"
+      Project     = "tech-challenge"
+    }
+  }
 }
 
 locals {
@@ -17,4 +24,18 @@ module "eks" {
   vpc_id       = module.vpc.vpc_id
   subnet_ids   = module.vpc.private_subnets
   role_arn     = var.cluster_role_arn
+  role_name    = var.role_name
+}
+
+module "rds" {
+  source                = "../modules/rds"
+  db_password           = var.db_password
+  vpc_id                = module.vpc.vpc_id
+  subnet_ids            = module.vpc.private_subnets
+  eks_security_group_id = module.eks.cluster_security_group_id
+}
+
+module "ecr" {
+  source          = "../modules/ecr"
+  repository_name = var.repository_name
 }
