@@ -17,3 +17,21 @@ variable "role_arn" {
   description = "IAM role ARN for the EKS cluster"
   type        = string
 }
+
+variable "role_name" {
+  description = "IAM role name for the EKS cluster (used for policy attachments)"
+  type        = string
+  default     = "LabRole"
+}
+
+variable "create_policy_attachment" {
+  description = "Whether to create the IAM policy attachment for ECR"
+  type        = bool
+  default     = true
+}
+
+variable "repository_url" {
+  description = "The URL of the ECR repository"
+  type        = string
+  default     = ""
+}
