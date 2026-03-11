@@ -22,6 +22,10 @@ resource "aws_eks_cluster" "main" {
     endpoint_private_access = true
     security_group_ids      = [aws_security_group.cluster.id]
   }
+
+  tags = {
+    repository_url = var.repository_url
+  }
 }
 
 resource "aws_eks_node_group" "main" {
@@ -39,7 +43,17 @@ resource "aws_eks_node_group" "main" {
   instance_types = ["t3.medium"]
   ami_type       = "AL2023_x86_64_STANDARD"
 
+  tags = {
+    repository_url = var.repository_url
+  }
+
   depends_on = [
     aws_eks_cluster.main
   ]
+}
+
+resource "aws_iam_role_policy_attachment" "ecr_readonly" {
+  count      = var.create_policy_attachment ? 1 : 0
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+  role       = var.role_name
 }
