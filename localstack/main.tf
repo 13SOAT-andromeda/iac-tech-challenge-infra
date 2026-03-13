@@ -6,6 +6,24 @@ terraform {
       version = "~> 5.0"
     }
   }
+
+  backend "s3" {
+    bucket                      = "tech-challenge-bucket-andromeda-local"
+    key                         = "terraform.tfstate"
+    region                      = "us-east-1"
+    endpoints                   = {
+      s3 = "http://localhost:4566"
+      iam = "http://localhost:4566"
+      sts = "http://localhost:4566"
+    }
+    access_key                  = "test"
+    secret_key                  = "test"
+    skip_credentials_validation = true
+    skip_metadata_api_check     = true
+    skip_region_validation      = true
+    skip_requesting_account_id  = true
+    use_path_style              = true
+  }
 }
 
 provider "aws" {
@@ -15,6 +33,7 @@ provider "aws" {
   skip_credentials_validation = true
   skip_metadata_api_check     = true
   skip_requesting_account_id  = true
+  s3_use_path_style           = true
 
   endpoints {
     ec2 = "http://localhost:4566"
@@ -23,6 +42,7 @@ provider "aws" {
     rds = "http://localhost:4566"
     iam = "http://localhost:4566"
     sts = "http://localhost:4566"
+    s3  = "http://localhost:4566"
   }
 
   default_tags {
@@ -87,7 +107,20 @@ module "ecr" {
   repository_name = var.repository_name
 }
 
+module "s3" {
+  source      = "../modules/s3"
+  bucket_name = var.bucket_name
+  tags = {
+    Environment = "localstack"
+  }
+}
+
 output "repository_url" {
   description = "The URL of the ECR repository"
   value       = module.ecr.repository_url
+}
+
+output "state_bucket_arn" {
+  description = "The ARN of the S3 bucket for state and artifacts"
+  value       = module.s3.bucket_arn
 }

@@ -6,6 +6,13 @@ terraform {
       version = "~> 5.0"
     }
   }
+
+  backend "s3" {
+    bucket         = "tech-challenge-bucket-andromeda-aws"
+    key            = "terraform.tfstate"
+    region         = "us-east-1"
+    encrypt        = true
+  }
 }
 
 provider "aws" {
@@ -53,7 +60,20 @@ module "ecr" {
   repository_name = var.repository_name
 }
 
+module "s3" {
+  source      = "../modules/s3"
+  bucket_name = var.bucket_name
+  tags = {
+    Environment = "dev"
+  }
+}
+
 output "repository_url" {
   description = "The URL of the ECR repository"
   value       = module.ecr.repository_url
+}
+
+output "state_bucket_arn" {
+  description = "The ARN of the S3 bucket for state and artifacts"
+  value       = module.s3.bucket_arn
 }
