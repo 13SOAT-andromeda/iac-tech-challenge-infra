@@ -25,6 +25,10 @@ This track involves the implementation of a reusable Terraform module for deploy
     - **`tech-challenge-notification-service`:**
         - Triggered by an SNS/SQS topic (under discussion).
 
+- **LocalStack Parity:**
+    - Mirror the Lambda and ECR configuration in the `localstack/` environment.
+    - Ensure `reserved_concurrent_executions` is supported or gracefully handled in the local environment.
+
 ## Non-Functional Requirements
 - **Simplicity & Modularity:** Reusable module structure to minimize duplication.
 - **Compliance:** Strict adherence to AWS Academy constraints (`LabRole` and Concurrency limits).

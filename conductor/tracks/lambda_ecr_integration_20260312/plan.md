@@ -19,8 +19,8 @@
 - [x] Task: Configure necessary environment variables for RDS, DynamoDB, and API Gateway integration within `aws/main.tf` for the respective Lambdas. e90624d
 - [x] Task: Conductor - User Manual Verification 'Deploy Lambda Functions' (Protocol in workflow.md) 38c0607
 
-## Phase 4: LocalStack Parity
+## Phase 4: LocalStack Parity [checkpoint: af1a234]
 - [x] Task: Update `localstack/main.tf` to include the three new ECR repositories and the three Lambda functions.
 - [x] Task: Update `localstack/outputs.tf` to include relevant ECR and Lambda outputs.
 - [x] Task: Run `terraform validate` in the `localstack/` directory to ensure parity configuration correctness. 5449193
-- [~] Task: Conductor - User Manual Verification 'LocalStack Parity' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'LocalStack Parity' (Protocol in workflow.md) af1a234
