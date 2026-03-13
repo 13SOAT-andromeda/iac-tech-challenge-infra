@@ -68,12 +68,17 @@ module "s3" {
   }
 }
 
-output "repository_url" {
-  description = "The URL of the ECR repository"
-  value       = module.ecr.repository_url
+module "ecr_user_validation" {
+  source          = "../modules/ecr"
+  repository_name = "tech-challenge-user-validation-repo"
 }
 
-output "state_bucket_arn" {
-  description = "The ARN of the S3 bucket for state and artifacts"
-  value       = module.s3.bucket_arn
+module "ecr_user_authentication" {
+  source          = "../modules/ecr"
+  repository_name = "tech-challenge-user-authentication-repo"
+}
+
+module "ecr_notification_service" {
+  source          = "../modules/ecr"
+  repository_name = "tech-challenge-notification-service-repo"
 }
