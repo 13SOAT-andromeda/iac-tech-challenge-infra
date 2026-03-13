@@ -17,4 +17,4 @@
 ## Development & Operations
 - **LocalStack:** Local environment emulation for testing infrastructure changes without incurring AWS costs.
 - **AWS CLI / tflocal:** Command-line interfaces for interacting with AWS and LocalStack environments.
-- **LabRole & Concurrency Management:** Compliance with `LabRole` permissions and strict enforcement of the 10-instance concurrency limit for Lambda.
+- **LabRole & Concurrency Management:** Compliance with `LabRole` permissions and strict enforcement of the 10-instance concurrency limit for Lambda, mirrored in the LocalStack environment.

@@ -23,4 +23,4 @@ To build a robust, simple, and consistent Infrastructure as Code (IaC) substrate
 ## Goals & Success Criteria
 - **Simplicity & Consistency:** High modularity in Terraform while keeping implementation direct and easy to reason about.
 - **Build Support:** Seamlessly supporting the latest build versions of applications to run in the existing EKS cluster.
-- **LabRole & Concurrency Compliance:** Successfully utilizing the existing `LabRole` and managing account-level concurrency limits (10 instances) for serverless deployments.
+- **LabRole & Concurrency Compliance:** Successfully utilizing the existing `LabRole` and managing account-level concurrency limits (10 instances) for serverless deployments across both AWS and LocalStack environments.
