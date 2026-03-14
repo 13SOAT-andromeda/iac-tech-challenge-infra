@@ -36,13 +36,15 @@ provider "aws" {
   s3_use_path_style           = true
 
   endpoints {
-    ec2 = "http://localhost:4566"
-    ecr = "http://localhost:4566"
-    eks = "http://localhost:4566"
-    rds = "http://localhost:4566"
-    iam = "http://localhost:4566"
-    sts = "http://localhost:4566"
-    s3  = "http://localhost:4566"
+    ec2            = "http://localhost:4566"
+    ecr            = "http://localhost:4566"
+    eks            = "http://localhost:4566"
+    rds            = "http://localhost:4566"
+    iam            = "http://localhost:4566"
+    sts            = "http://localhost:4566"
+    s3             = "http://localhost:4566"
+    lambda         = "http://localhost:4566"
+    cloudwatchlogs = "http://localhost:4566"
   }
 
   default_tags {
@@ -115,12 +117,49 @@ module "s3" {
   }
 }
 
-output "repository_url" {
-  description = "The URL of the ECR repository"
-  value       = module.ecr.repository_url
+module "ecr_user_validation" {
+  source          = "../modules/ecr"
+  repository_name = "tech-challenge-user-validation-repo"
 }
 
-output "state_bucket_arn" {
-  description = "The ARN of the S3 bucket for state and artifacts"
-  value       = module.s3.bucket_arn
+module "ecr_user_authentication" {
+  source          = "../modules/ecr"
+  repository_name = "tech-challenge-user-authentication-repo"
+}
+
+module "ecr_notification_service" {
+  source          = "../modules/ecr"
+  repository_name = "tech-challenge-notification-service-repo"
+}
+
+module "lambda_user_validation" {
+  source                         = "../modules/lambda"
+  function_name                  = "tech-challenge-user-validation"
+  image_uri                      = "${module.ecr_user_validation.repository_url}:latest"
+  role_arn                       = aws_iam_role.eks_local.arn
+  reserved_concurrent_executions = 3
+  environment_variables = {
+    DB_HOST            = module.rds.db_instance_endpoint
+    DYNAMODB_TABLE     = "tech-challenge-tokens"
+    PROJECT_ENV        = "localstack"
+  }
+}
+
+module "lambda_user_authentication" {
+  source                         = "../modules/lambda"
+  function_name                  = "tech-challenge-user-authentication"
+  image_uri                      = "${module.ecr_user_authentication.repository_url}:latest"
+  role_arn                       = aws_iam_role.eks_local.arn
+  reserved_concurrent_executions = 3
+  environment_variables = {
+    DYNAMODB_TABLE = "tech-challenge-tokens"
+  }
+}
+
+module "lambda_notification_service" {
+  source                         = "../modules/lambda"
+  function_name                  = "tech-challenge-notification-service"
+  image_uri                      = "${module.ecr_notification_service.repository_url}:latest"
+  role_arn                       = aws_iam_role.eks_local.arn
+  reserved_concurrent_executions = 3
 }
