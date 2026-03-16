@@ -1,0 +1,8 @@
+{
+  "track_id": "s3_implementation_20260311",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-03-11T00:00:00Z",
+  "updated_at": "2026-03-11T00:00:00Z",
+  "description": "I need to create an simple implementation of s3 using terraform. Create an specialized prompt as a DevOps/Senior software enginner to create this implemantion, considering use the available mcps from localstack and aws as context and consider the current project structure. should to assume the current labRole as this document student account said \"This service can assume the LabRole IAM role.\". Objective: The principal objetive of this s3 repository is to storage the terraform tfstate when i started to create the configuration to the pipeline CI/CD, and i will be storage to an HTML file that is an email template. Please consider this information and assume the best organization for this case rules: the implementation have to be more simple and consisty as possible, have assume that to work both for localstack then aws"
+}
