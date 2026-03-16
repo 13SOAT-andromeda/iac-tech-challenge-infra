@@ -9,6 +9,7 @@ To build a robust, simple, and consistent Infrastructure as Code (IaC) substrate
 - **ECR Repository Module:** A reusable Terraform module to create and manage container registries for storing EKS and future Lambda application images.
 - **Reusable Lambda Module:** A container-based Lambda deployment module supporting microservices like user validation, authentication, and notifications.
 - **S3 Storage Module:** A modular S3 implementation for securely storing Terraform state files and application artifacts (e.g., HTML templates) with versioning and encryption.
+- **DynamoDB Storage Module:** A consistent NoSQL implementation for managing session tokens and authentication metadata with TTL and pay-per-request billing.
 - **Environment Parity (Developer Optimized):** A streamlined approach to LocalStack integration that mirrors core AWS ECR functionality while maintaining a fast developer inner-loop.
 - **Traceable EKS & ECR Integration:** Deep integration between EKS and ECR, including automated IAM permissioning and metadata tagging for seamless image deployments and infrastructure traceability.
 
