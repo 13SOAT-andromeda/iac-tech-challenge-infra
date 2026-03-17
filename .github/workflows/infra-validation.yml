@@ -1,0 +1,19 @@
+name: Check IAC configuration
+
+on:
+  pull_request:
+    branches: [release/*, feature/*, chore/*, hotfix/*]
+
+jobs:
+  terraform-validate:
+    name: Validate IAC configuration
+    runs-on: ubuntu-latest
+    env:
+      TF_VAR_cluster_role_arn: "aws:iam::186319076937:role/LabRole"
+      TF_VAR_db_password: "admingaragedb"
+    steps:
+      - name: "Display Terraform variables"
+        run: |
+          echo "Cluster Role ARN: $TF_VAR_cluster_role_arn"
+          echo "DB Password: $TF_VAR_db_password"
+          echo "terraform validate -auto-approve -var=$TF_VAR_cluster_role_arn -var=$TF_VAR_db_password"
