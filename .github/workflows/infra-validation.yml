@@ -1,6 +1,8 @@
 name: Check IAC configuration
 
 on:
+  push:
+    branches: [release/*, feature/*, chore/*, hotfix/*]
   pull_request:
     branches: [release/*, feature/*, chore/*, hotfix/*]
 
