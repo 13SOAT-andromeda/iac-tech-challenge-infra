@@ -46,6 +46,7 @@ provider "aws" {
     lambda         = "http://localhost:4566"
     dynamodb       = "http://localhost:4566"
     cloudwatchlogs = "http://localhost:4566"
+    apigateway     = "http://localhost:4566"
   }
 
   default_tags {

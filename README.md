@@ -20,12 +20,25 @@ Infrastructure as Code (IaC) for setting up a VPC and EKS cluster, supporting bo
 
 ### Local Development (LocalStack)
 
-1. Start LocalStack:
-   ```bash
-   localstack start -d
-   ```
+1. Start LocalStack (choose one):
+   - **Docker Compose** (recommended):
+     ```bash
+     docker compose up -d
+     ```
+   - Or using the LocalStack CLI: `localstack start -d`
 
-2. Initialize and apply:
+2. Optional: copy `.env.example` to `.env` and set `DEBUG=1` or `PERSISTENCE=1` if needed. Por padrão sobe **só API Gateway** (`SERVICES=apigateway`). Para o stack completo use `SERVICES=ec2,ecr,eks,rds,iam,sts,apigateway` no `.env`.
+
+3. **Só API Gateway (teste rápido):**
+   ```bash
+   docker compose up -d
+   cd localstack/apigateway-only
+   tflocal init
+   tflocal apply
+   ```
+   Os outputs mostram a URL do API no LocalStack.
+
+4. **Stack completo (VPC, EKS, RDS, ECR, etc.):** defina `SERVICES=ec2,ecr,eks,rds,iam,sts,apigateway` no `.env`, reinicie o container e:
    ```bash
    cd localstack
    tflocal init

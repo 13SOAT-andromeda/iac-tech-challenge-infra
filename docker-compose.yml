@@ -1,0 +1,30 @@
+# LocalStack - AWS service emulator for local development
+# Usage: docker compose up -d
+# Para teste só de API Gateway: já está configurado (SERVICES=apigateway).
+# Para stack completo: defina SERVICES no .env (ver .env.example).
+
+services:
+  localstack:
+    image: localstack/localstack:latest
+    container_name: iac-tech-challenge-localstack
+    ports:
+      - "4566:4566"            # LocalStack Gateway
+      - "4510-4559:4510-4559" # external services port range
+    environment:
+      # Só API Gateway para teste rápido (troque no .env para stack completo)
+      SERVICES: ${SERVICES:-apigateway}
+      DEBUG: ${DEBUG:-0}
+      PERSISTENCE: ${PERSISTENCE:-0}
+      DOCKER_HOST: unix:///var/run/docker.sock
+    volumes:
+      - localstack-data:/var/lib/localstack
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4566/_localstack/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  localstack-data:
