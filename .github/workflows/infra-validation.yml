@@ -10,10 +10,6 @@ jobs:
   terraform-validate:
     name: Validation of Terraform configuration
     runs-on: ubuntu-latest
-    # environment: AWS
-    # env:
-    #   ENV_CLUSTER_ROLE_ARN: ${{ secrets.AWS_CLUSTER_ROLE_ARN }}
-    #   ENV_RDS_DB_PASSWORD: ${{ secrets.AWS_RDS_DB_PASSWORD }}
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v4
