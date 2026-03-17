@@ -10,13 +10,17 @@ jobs:
   terraform-validate:
     name: Validate IAC configuration
     runs-on: ubuntu-latest
+    environment: AWS
     env:
-      TF_VAR_cluster_role_arn: "aws:iam::186319076937:role/LabRole"
-      TF_VAR_db_password: "admingaragedb"
+      ENV_CLUSTER_ROLE_ARN: ${{ secrets.AWS_CLUSTER_ROLE_ARN }}
+      ENV_RDS_DB_PASSWORD: ${{ secrets.AWS_RDS_DB_PASSWORD }}
+    # env:
+    #   TF_VAR_cluster_role_arn: "aws:iam::186319076937:role/LabRole"
+    #   TF_VAR_db_password: "admingaragedb"
     steps:
       - name: "Display Terraform variables"
         run: |
           echo "Starting Terraform validation..."
-          echo "Cluster Role ARN: $TF_VAR_cluster_role_arn"
-          echo "DB Password: $TF_VAR_db_password"
-          echo "terraform validate -auto-approve -var=$TF_VAR_cluster_role_arn -var=$TF_VAR_db_password"
+          echo "ENV_CLUSTER_ROLE_ARN: $ENV_CLUSTER_ROLE_ARN"
+          echo "ENV_RDS_DB_PASSWORD: $ENV_RDS_DB_PASSWORD"
+          # echo "terraform validate -auto-approve -var=$TF_VAR_cluster_role_arn -var=$TF_VAR_db_password"
