@@ -5,11 +5,11 @@
 - [x] Task: Remove the legacy `.github/workflows/infra-validation.yml` file 8e6c87f
 - [x] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md) ef716ac
 
-## Phase 2: CI - Code Integration
+## Phase 2: CI - Code Integration [checkpoint: 6187cf0]
 - [x] Task: Implement the `terraform-ci` job in `infra-pipeline.yml` d11122e
 - [x] Task: Add triggers for `develop` and `release/*` branches (PR) d11122e
 - [x] Task: Add steps for `checkout`, `setup-terraform`, `fmt`, and `validate` d11122e
-- [~] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md) 6187cf0
 
 ## Phase 3: The Dry-Run (Planning)
 - [ ] Task: Implement `The Dry-Run` job in `infra-pipeline.yml`
