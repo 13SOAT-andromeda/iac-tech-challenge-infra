@@ -13,6 +13,7 @@
 - **S3 (Simple Storage Service):** Secure object storage for Terraform state and CI/CD artifacts.
 - **RDS (PostgreSQL):** Managed relational database service for application data persistence.
 - **DynamoDB:** NoSQL database for session management and token storage.
+- **GitHub Actions:** Automated CI/CD platform for infrastructure validation and deployment.
 
 ## Development & Operations
 - **LocalStack:** Local environment emulation for testing infrastructure changes without incurring AWS costs.

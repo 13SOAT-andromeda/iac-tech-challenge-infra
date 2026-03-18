@@ -12,6 +12,7 @@ To build a robust, simple, and consistent Infrastructure as Code (IaC) substrate
 - **DynamoDB Storage Module:** A consistent NoSQL implementation for managing session tokens and authentication metadata with TTL and pay-per-request billing.
 - **Environment Parity (Developer Optimized):** A streamlined approach to LocalStack integration that mirrors core AWS ECR functionality while maintaining a fast developer inner-loop.
 - **Traceable EKS & ECR Integration:** Deep integration between EKS and ECR, including automated IAM permissioning and metadata tagging for seamless image deployments and infrastructure traceability.
+- **Automated CI/CD Pipeline:** A streamlined GitHub Actions pipeline for automated Terraform formatting, validation, planning (with PR comments), and deployment to AWS.
 
 ## Microservices Substrate
 - **tech-challenge-user-validation:** Handles JWT generation and validation via RDS and DynamoDB.
