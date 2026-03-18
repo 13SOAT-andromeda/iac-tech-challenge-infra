@@ -4,5 +4,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [~] **Track: GitHub Actions CI/CD Pipeline**
+- [x] **Track: GitHub Actions CI/CD Pipeline**
 *Link: [./tracks/github_actions_pipeline_20260317/](./tracks/github_actions_pipeline_20260317/)*
