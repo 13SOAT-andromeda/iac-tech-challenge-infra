@@ -8,10 +8,10 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "tech-challenge-bucket-andromeda-aws"
-    key            = "terraform.tfstate"
-    region         = "us-east-1"
-    encrypt        = true
+    bucket  = "tech-challenge-bucket-andromeda-aws"
+    key     = "terraform.tfstate"
+    region  = "us-east-1"
+    encrypt = true
   }
 }
 
@@ -90,9 +90,9 @@ module "lambda_user_validation" {
   role_arn                       = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.role_name}"
   reserved_concurrent_executions = 3
   environment_variables = {
-    DB_HOST            = module.rds.db_instance_endpoint
-    DYNAMODB_TABLE     = module.dynamodb.table_name
-    PROJECT_ENV        = "dev"
+    DB_HOST        = module.rds.db_instance_endpoint
+    DYNAMODB_TABLE = module.dynamodb.table_name
+    PROJECT_ENV    = "dev"
   }
 }
 
