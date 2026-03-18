@@ -1,0 +1,8 @@
+name: IAC Pipeline
+on:
+  workflow_dispatch:
+jobs:
+  skeleton:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Skeleton"
