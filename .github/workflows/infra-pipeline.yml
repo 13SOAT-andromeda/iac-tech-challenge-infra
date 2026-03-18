@@ -51,6 +51,7 @@ jobs:
       AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
       AWS_BUCKET_NAME_S3: ${{ secrets.AWS_BUCKET_NAME_S3 }}
+      AWS_S3_TF_STATE_BUCKET_NAME: ${{ secrets.AWS_S3_TF_STATE_BUCKET_NAME }}
       TF_VAR_cluster_role_arn: ${{ secrets.AWS_CLUSTER_ROLE_ARN }}
       TF_VAR_db_password: ${{ secrets.AWS_RDS_DB_PASSWORD }}
     steps:
@@ -64,18 +65,18 @@ jobs:
 
       - name: Bootstrap S3 Backend
         run: |
-          if ! aws s3 ls "s3://$AWS_BUCKET_NAME_S3" > /dev/null 2>&1; then
-            echo "Bucket does not exist. Creating..."
-            aws s3 mb s3://$AWS_BUCKET_NAME_S3 --region $AWS_REGION
+          if ! aws s3 ls "s3://$AWS_S3_TF_STATE_BUCKET_NAME" > /dev/null 2>&1; then
+            echo "State Bucket does not exist. Creating..."
+            aws s3 mb s3://$AWS_S3_TF_STATE_BUCKET_NAME --region $AWS_REGION
             echo "Waiting for bucket propagation..."
             sleep 15
           else
-            echo "Bucket already exists."
+            echo "State Bucket already exists."
           fi
 
       - name: Terraform Init
         id: init
-        run: terraform init
+        run: terraform init -backend-config="bucket=$AWS_S3_TF_STATE_BUCKET_NAME"
 
       - name: Terraform Format
         id: fmt
@@ -132,6 +133,7 @@ jobs:
       AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
       AWS_BUCKET_NAME_S3: ${{ secrets.AWS_BUCKET_NAME_S3 }}
+      AWS_S3_TF_STATE_BUCKET_NAME: ${{ secrets.AWS_S3_TF_STATE_BUCKET_NAME }}
       TF_VAR_cluster_role_arn: ${{ secrets.AWS_CLUSTER_ROLE_ARN }}
       TF_VAR_db_password: ${{ secrets.AWS_RDS_DB_PASSWORD }}
     steps:
@@ -145,18 +147,18 @@ jobs:
 
       - name: Bootstrap S3 Backend
         run: |
-          if ! aws s3 ls "s3://$AWS_BUCKET_NAME_S3" > /dev/null 2>&1; then
-            echo "Bucket does not exist. Creating..."
-            aws s3 mb s3://$AWS_BUCKET_NAME_S3 --region $AWS_REGION
+          if ! aws s3 ls "s3://$AWS_S3_TF_STATE_BUCKET_NAME" > /dev/null 2>&1; then
+            echo "State Bucket does not exist. Creating..."
+            aws s3 mb s3://$AWS_S3_TF_STATE_BUCKET_NAME --region $AWS_REGION
             echo "Waiting for bucket propagation..."
             sleep 15
           else
-            echo "Bucket already exists."
+            echo "State Bucket already exists."
           fi
 
       - name: Terraform Init
         id: init
-        run: terraform init
+        run: terraform init -backend-config="bucket=$AWS_S3_TF_STATE_BUCKET_NAME"
 
       - name: Terraform Apply
         id: apply
