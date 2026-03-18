@@ -83,38 +83,6 @@ module "ecr_notification_service" {
   repository_name = "tech-challenge-notification-service-repo"
 }
 
-module "lambda_user_validation" {
-  source                         = "../modules/lambda"
-  function_name                  = "tech-challenge-user-validation"
-  image_uri                      = "${module.ecr_user_validation.repository_url}:latest"
-  role_arn                       = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.role_name}"
-  reserved_concurrent_executions = 3
-  environment_variables = {
-    DB_HOST        = module.rds.db_instance_endpoint
-    DYNAMODB_TABLE = module.dynamodb.table_name
-    PROJECT_ENV    = "dev"
-  }
-}
-
-module "lambda_user_authentication" {
-  source                         = "../modules/lambda"
-  function_name                  = "tech-challenge-user-authentication"
-  image_uri                      = "${module.ecr_user_authentication.repository_url}:latest"
-  role_arn                       = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.role_name}"
-  reserved_concurrent_executions = 3
-  environment_variables = {
-    DYNAMODB_TABLE = module.dynamodb.table_name
-  }
-}
-
-module "lambda_notification_service" {
-  source                         = "../modules/lambda"
-  function_name                  = "tech-challenge-notification-service"
-  image_uri                      = "${module.ecr_notification_service.repository_url}:latest"
-  role_arn                       = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.role_name}"
-  reserved_concurrent_executions = 3
-}
-
 module "dynamodb" {
   source     = "../modules/dynamodb"
   table_name = "user-authentication-token"
