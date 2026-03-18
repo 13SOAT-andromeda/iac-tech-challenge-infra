@@ -46,6 +46,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_BUCKET_NAME_S3: ${{ secrets.AWS_BUCKET_NAME_S3 }}
       TF_VAR_cluster_role_arn: ${{ secrets.AWS_CLUSTER_ROLE_ARN }}
       TF_VAR_db_password: ${{ secrets.AWS_RDS_DB_PASSWORD }}
     steps:
@@ -56,6 +57,17 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: latest
+
+      - name: Bootstrap S3 Backend
+        run: |
+          if ! aws s3 ls "s3://$AWS_BUCKET_NAME_S3" > /dev/null 2>&1; then
+            echo "Bucket does not exist. Creating..."
+            aws s3 mb s3://$AWS_BUCKET_NAME_S3 --region $AWS_REGION
+            echo "Waiting for bucket propagation..."
+            sleep 15
+          else
+            echo "Bucket already exists."
+          fi
 
       - name: Terraform Init
         id: init
@@ -115,6 +127,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_BUCKET_NAME_S3: ${{ secrets.AWS_BUCKET_NAME_S3 }}
       TF_VAR_cluster_role_arn: ${{ secrets.AWS_CLUSTER_ROLE_ARN }}
       TF_VAR_db_password: ${{ secrets.AWS_RDS_DB_PASSWORD }}
     steps:
@@ -125,6 +138,17 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: latest
+
+      - name: Bootstrap S3 Backend
+        run: |
+          if ! aws s3 ls "s3://$AWS_BUCKET_NAME_S3" > /dev/null 2>&1; then
+            echo "Bucket does not exist. Creating..."
+            aws s3 mb s3://$AWS_BUCKET_NAME_S3 --region $AWS_REGION
+            echo "Waiting for bucket propagation..."
+            sleep 15
+          else
+            echo "Bucket already exists."
+          fi
 
       - name: Terraform Init
         id: init
