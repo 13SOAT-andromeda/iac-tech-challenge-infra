@@ -11,7 +11,7 @@
 - [x] Task: Add steps for `checkout`, `setup-terraform`, `fmt`, and `validate` d11122e
 - [x] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md) 6187cf0
 
-## Phase 3: The Dry-Run (Planning)
+## Phase 3: The Dry-Run (Planning) [checkpoint: 78b15f8]
 - [x] Task: Implement `The Dry-Run` job in `infra-pipeline.yml` 08585e7
 - [x] Task: Add triggers for `main` branch (PR) 08585e7
 - [x] Task: Add steps for `checkout`, `setup-terraform`, `init` (S3 backend), and `plan` 08585e7
@@ -32,7 +32,7 @@
 
   *Pushed by: @{{ github.actor }}, Action: `{{ github.event_name }}`*
   ```
-- [~] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md) 78b15f8
 
 ## Phase 4: The Execution (CD)
 - [ ] Task: Implement `The Execution` job in `infra-pipeline.yml`
