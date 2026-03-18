@@ -12,10 +12,10 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md) 6187cf0
 
 ## Phase 3: The Dry-Run (Planning)
-- [ ] Task: Implement `The Dry-Run` job in `infra-pipeline.yml`
-- [ ] Task: Add triggers for `main` branch (PR)
-- [ ] Task: Add steps for `checkout`, `setup-terraform`, `init` (S3 backend), and `plan`
-- [ ] Task: Add step to post plan output to PR comments with the approved template:
+- [x] Task: Implement `The Dry-Run` job in `infra-pipeline.yml` 08585e7
+- [x] Task: Add triggers for `main` branch (PR) 08585e7
+- [x] Task: Add steps for `checkout`, `setup-terraform`, `init` (S3 backend), and `plan` 08585e7
+- [x] Task: Add step to post plan output to PR comments with the approved template: 08585e7
   ```markdown
   #### Terraform Format and Style 🖌 `{{ steps.fmt.outcome }}`
   #### Terraform Initialization ⚙️ `{{ steps.init.outcome }}`
@@ -32,7 +32,7 @@
 
   *Pushed by: @{{ github.actor }}, Action: `{{ github.event_name }}`*
   ```
-- [ ] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md)
+- [~] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md)
 
 ## Phase 4: The Execution (CD)
 - [ ] Task: Implement `The Execution` job in `infra-pipeline.yml`
