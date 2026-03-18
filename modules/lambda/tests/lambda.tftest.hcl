@@ -1,8 +1,8 @@
 # Test configuration for Lambda module
 variables {
-  function_name = "test-lambda"
-  image_uri     = "123456789012.dkr.ecr.us-east-1.amazonaws.com/test-repo:latest"
-  role_arn      = "arn:aws:iam::123456789012:role/LabRole"
+  function_name                  = "test-lambda"
+  image_uri                      = "123456789012.dkr.ecr.us-east-1.amazonaws.com/test-repo:latest"
+  role_arn                       = "arn:aws:iam::123456789012:role/LabRole"
   reserved_concurrent_executions = 5
   environment_variables = {
     TEST_VAR = "test-value"

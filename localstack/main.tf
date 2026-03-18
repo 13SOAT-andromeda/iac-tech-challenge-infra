@@ -8,13 +8,13 @@ terraform {
   }
 
   backend "s3" {
-    bucket                      = "tech-challenge-bucket-andromeda-local"
-    key                         = "terraform.tfstate"
-    region                      = "us-east-1"
-    endpoints                   = {
-      s3  = "http://localhost:4566"
-      iam = "http://localhost:4566"
-      sts = "http://localhost:4566"
+    bucket = "tech-challenge-bucket-andromeda-local"
+    key    = "terraform.tfstate"
+    region = "us-east-1"
+    endpoints = {
+      s3       = "http://localhost:4566"
+      iam      = "http://localhost:4566"
+      sts      = "http://localhost:4566"
       dynamodb = "http://localhost:4566"
     }
     access_key                  = "test"
@@ -140,9 +140,9 @@ module "lambda_user_validation" {
   role_arn                       = aws_iam_role.eks_local.arn
   reserved_concurrent_executions = 3
   environment_variables = {
-    DB_HOST            = module.rds.db_instance_endpoint
-    DYNAMODB_TABLE     = "tech-challenge-tokens"
-    PROJECT_ENV        = "localstack"
+    DB_HOST        = module.rds.db_instance_endpoint
+    DYNAMODB_TABLE = "tech-challenge-tokens"
+    PROJECT_ENV    = "localstack"
   }
 }
 
