@@ -1,9 +1,9 @@
 # Implementation Plan: Decouple Lambda Compute Pattern
 
-## Phase 1: Refactor Main Infrastructure Repository
+## Phase 1: Refactor Main Infrastructure Repository [checkpoint: 1df9149]
 - [x] Task: Remove `module.lambda_*` resource blocks from `aws/main.tf` 09ca852
 - [x] Task: Clean up unused variables or locals in `aws/main.tf` and `aws/variables.tf` 09ca852
-- [ ] Task: Conductor - User Manual Verification 'Phase 1' (Confirm `terraform apply` succeeds with only ECR)
+- [x] Task: Conductor - User Manual Verification 'Phase 1' (Confirm `terraform apply` succeeds with only ECR) 1df9149
 
 ## Phase 2: User Authentication Lambda (Microservice PR)
 - [ ] Task: Create `terraform/` directory in `13SOAT-andromeda/tech-challenge-user-authentication`
