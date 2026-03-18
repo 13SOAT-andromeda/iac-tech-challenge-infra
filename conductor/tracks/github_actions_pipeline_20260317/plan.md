@@ -1,9 +1,9 @@
 # Implementation Plan: GitHub Actions CI/CD Pipeline
 
 ## Phase 1: Preparation & Base Structure
-- [ ] Task: Create a skeletal `.github/workflows/infra-pipeline.yml` file
-- [ ] Task: Remove the legacy `.github/workflows/infra-validation.yml` file
-- [ ] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
+- [x] Task: Create a skeletal `.github/workflows/infra-pipeline.yml` file 3b91913
+- [x] Task: Remove the legacy `.github/workflows/infra-validation.yml` file 8e6c87f
+- [~] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
 
 ## Phase 2: CI - Code Integration
 - [ ] Task: Implement the `terraform-ci` job in `infra-pipeline.yml`
