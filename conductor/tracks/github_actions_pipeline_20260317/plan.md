@@ -35,7 +35,7 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md) 78b15f8
 
 ## Phase 4: The Execution (CD)
-- [ ] Task: Implement `The Execution` job in `infra-pipeline.yml`
-- [ ] Task: Add push (merge) trigger for `main` branch
-- [ ] Task: Add steps for `checkout`, `setup-terraform`, `init` (S3 backend), and `apply -auto-approve`
-- [ ] Task: Conductor - User Manual Verification 'Phase 4' (Protocol in workflow.md)
+- [x] Task: Implement `The Execution` job in `infra-pipeline.yml` 802e5bb
+- [x] Task: Add push (merge) trigger for `main` branch 802e5bb
+- [x] Task: Add steps for `checkout`, `setup-terraform`, `init` (S3 backend), and `apply -auto-approve` 802e5bb
+- [~] Task: Conductor - User Manual Verification 'Phase 4' (Protocol in workflow.md)
