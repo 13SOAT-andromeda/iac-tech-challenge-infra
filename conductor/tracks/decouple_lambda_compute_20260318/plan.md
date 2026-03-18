@@ -2,7 +2,7 @@
 
 ## Phase 1: Refactor Main Infrastructure Repository
 - [x] Task: Remove `module.lambda_*` resource blocks from `aws/main.tf` 09ca852
-- [ ] Task: Clean up unused variables or locals in `aws/main.tf` and `aws/variables.tf`
+- [x] Task: Clean up unused variables or locals in `aws/main.tf` and `aws/variables.tf` 09ca852
 - [ ] Task: Conductor - User Manual Verification 'Phase 1' (Confirm `terraform apply` succeeds with only ECR)
 
 ## Phase 2: User Authentication Lambda (Microservice PR)
