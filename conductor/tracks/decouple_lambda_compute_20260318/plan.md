@@ -1,7 +1,7 @@
 # Implementation Plan: Decouple Lambda Compute Pattern
 
 ## Phase 1: Refactor Main Infrastructure Repository
-- [ ] Task: Remove `module.lambda_*` resource blocks from `aws/main.tf`
+- [x] Task: Remove `module.lambda_*` resource blocks from `aws/main.tf` 09ca852
 - [ ] Task: Clean up unused variables or locals in `aws/main.tf` and `aws/variables.tf`
 - [ ] Task: Conductor - User Manual Verification 'Phase 1' (Confirm `terraform apply` succeeds with only ECR)
 
