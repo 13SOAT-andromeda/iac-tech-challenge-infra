@@ -1,8 +1,33 @@
 name: IAC Pipeline
+
 on:
-  workflow_dispatch:
+  pull_request:
+    branches:
+      - develop
+      - 'release/*'
+  push:
+    branches:
+      - main
+
 jobs:
-  skeleton:
+  terraform-ci:
+    name: "Terraform CI"
+    if: github.event_name == 'pull_request' && (github.base_ref == 'develop' || startsWith(github.base_ref, 'release/'))
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Skeleton"
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: latest
+
+      - name: Terraform Format
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: true
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate
