@@ -6,10 +6,10 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md) ef716ac
 
 ## Phase 2: CI - Code Integration
-- [ ] Task: Implement the `terraform-ci` job in `infra-pipeline.yml`
-- [ ] Task: Add triggers for `develop` and `release/*` branches (PR)
-- [ ] Task: Add steps for `checkout`, `setup-terraform`, `fmt`, and `validate`
-- [ ] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
+- [x] Task: Implement the `terraform-ci` job in `infra-pipeline.yml` d11122e
+- [x] Task: Add triggers for `develop` and `release/*` branches (PR) d11122e
+- [x] Task: Add steps for `checkout`, `setup-terraform`, `fmt`, and `validate` d11122e
+- [~] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
 
 ## Phase 3: The Dry-Run (Planning)
 - [ ] Task: Implement `The Dry-Run` job in `infra-pipeline.yml`
