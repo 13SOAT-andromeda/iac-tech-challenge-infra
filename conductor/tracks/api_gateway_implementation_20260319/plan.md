@@ -3,11 +3,11 @@
 ## Overview
 Implement a reusable Terraform module for AWS API Gateway (REST) that handles public and private routes with authentication/authorization and VPC integration.
 
-## Phase 1: Module Scaffolding & Core Setup
-- [ ] Task: Create `modules/api-gateway/` directory structure and initial files (`main.tf`, `variables.tf`, `outputs.tf`).
-- [ ] Task: Define input variables (`vpc_id`, `subnet_ids`, `lb_dns_name`, `lab_role_arn`, `auth_lambda_arn`, `authorizer_lambda_arn`).
-- [ ] Task: Set up basic REST API resource and its deployment.
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Module Scaffolding & Core Setup' (Protocol in workflow.md)
+## Phase 1: Module Scaffolding & Core Setup [checkpoint: bb86944]
+- [x] Task: Create `modules/api-gateway/` directory structure and initial files (`main.tf`, `variables.tf`, `outputs.tf`). (b42db05)
+- [x] Task: Define input variables (`vpc_id`, `subnet_ids`, `lb_dns_name`, `lab_role_arn`, `auth_lambda_arn`, `authorizer_lambda_arn`). (7b5fd1e)
+- [x] Task: Set up basic REST API resource and its deployment. (7853c35)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Module Scaffolding & Core Setup' (Protocol in workflow.md) (bb86944)
 
 ## Phase 2: Public Routes & Lambda Integration
 - [ ] Task: Write failing tests for `/login` endpoint (Red Phase).
