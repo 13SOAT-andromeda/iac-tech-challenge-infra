@@ -56,21 +56,32 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # - name: "Debug: Verify Secrets Presence"
-      #   run: |
-      #     echo "Verifying presence of environment variables from secrets..."
-      #     if [ -n "$AWS_ACCESS_KEY_ID" ]; then echo "AWS_ACCESS_KEY_ID is set"; else echo "AWS_ACCESS_KEY_ID is EMPTY"; fi
-      #     if [ -n "$AWS_SECRET_ACCESS_KEY" ]; then echo "AWS_SECRET_ACCESS_KEY is set"; else echo "AWS_SECRET_ACCESS_KEY is EMPTY"; fi
-      #     if [ -n "$AWS_REGION" ]; then echo "AWS_REGION is set"; else echo "AWS_REGION is EMPTY"; fi
-      #     if [ -n "$AWS_S3_TF_STATE_BUCKET_NAME" ]; then echo "AWS_S3_TF_STATE_BUCKET_NAME is set"; else echo "AWS_S3_TF_STATE_BUCKET_NAME is EMPTY"; fi
+      - name: "Debug: Verify Secrets Presence"
+        run: |
+          echo "Verifying presence of environment variables from secrets..."
+          if [ -n "$AWS_ACCESS_KEY_ID" ]; then echo "AWS_ACCESS_KEY_ID is set"; else echo "AWS_ACCESS_KEY_ID is EMPTY"; fi
+          if [ -n "$AWS_SECRET_ACCESS_KEY" ]; then echo "AWS_SECRET_ACCESS_KEY is set"; else echo "AWS_SECRET_ACCESS_KEY is EMPTY"; fi
+          if [ -n "$AWS_REGION" ]; then echo "AWS_REGION is set"; else echo "AWS_REGION is EMPTY"; fi
+          if [ -n "$AWS_S3_TF_STATE_BUCKET_NAME" ]; then echo "AWS_S3_TF_STATE_BUCKET_NAME is set"; else echo "AWS_S3_TF_STATE_BUCKET_NAME is EMPTY"; fi
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: latest
 
+      - name: Bootstrap S3 Backend
+        run: |
+          if ! aws s3 ls "s3://$AWS_S3_TF_STATE_BUCKET_NAME" > /dev/null 2>&1; then
+            echo "State Bucket does not exist. Creating..."
+            aws s3 mb s3://$AWS_S3_TF_STATE_BUCKET_NAME --region $AWS_REGION
+            echo "Waiting for bucket propagation..."
+            sleep 15
+          else
+            echo "State Bucket already exists."
+          fi
+
       - name: Terraform Init
         id: init
-        run: terraform init -input=false
+        run: terraform init -input=false -reconfigure -backend-config="bucket=$AWS_S3_TF_STATE_BUCKET_NAME"
 
       - name: Terraform Format
         id: fmt
@@ -79,7 +90,7 @@ jobs:
 
       - name: Terraform Validate
         id: validate
-        run: terraform validate -input=false
+        run: terraform validate
 
       - name: Terraform Plan
         id: plan
@@ -150,12 +161,7 @@ jobs:
 
       - name: Terraform Init
         id: init
-        run: |
-          if [ -z "$AWS_S3_TF_STATE_BUCKET_NAME" ]; then
-            echo "ERROR: AWS_S3_TF_STATE_BUCKET_NAME is empty. Check your GitHub Secrets."
-            exit 1
-          fi
-          terraform init -input=false -reconfigure -backend-config="bucket=$AWS_S3_TF_STATE_BUCKET_NAME"
+        run: terraform init -input=false -reconfigure -backend-config="bucket=$AWS_S3_TF_STATE_BUCKET_NAME"
 
       - name: Terraform Apply
         id: apply
