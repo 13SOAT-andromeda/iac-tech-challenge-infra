@@ -1,0 +1,44 @@
+provider "aws" {
+  region                      = "us-east-1"
+  access_key                  = "test"
+  secret_key                  = "test"
+  skip_credentials_validation = true
+  skip_metadata_api_check     = true
+  skip_requesting_account_id  = true
+  s3_use_path_style           = true
+
+  endpoints {
+    apigateway = "http://localhost:4566"
+    sts        = "http://localhost:4566"
+  }
+}
+
+variables {
+  name                  = "tftest-api-gateway"
+  vpc_id                = "vpc-12345678"
+  subnet_ids            = ["subnet-12345", "subnet-67890"]
+  lb_dns_name           = "test-lb.example.com"
+  lab_role_arn          = "arn:aws:iam::123456789012:role/LabRole"
+  auth_lambda_arn       = "arn:aws:lambda:us-east-1:123456789012:function:auth"
+  authorizer_lambda_arn = "arn:aws:lambda:us-east-1:123456789012:function:authorizer"
+  environment           = "test"
+}
+
+run "verify_api_gateway_basic_setup" {
+  command = plan
+
+  assert {
+    condition     = aws_api_gateway_rest_api.this.name == "tftest-api-gateway"
+    error_message = "API Gateway name did not match expected value"
+  }
+
+  assert {
+    condition     = aws_api_gateway_rest_api.this.endpoint_configuration[0].types[0] == "REGIONAL"
+    error_message = "API Gateway endpoint type is not REGIONAL"
+  }
+
+  assert {
+    condition     = aws_api_gateway_stage.this.stage_name == "test"
+    error_message = "API Gateway stage name did not match expected environment"
+  }
+}
