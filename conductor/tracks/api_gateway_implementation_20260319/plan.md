@@ -9,12 +9,12 @@ Implement a reusable Terraform module for AWS API Gateway (REST) that handles pu
 - [x] Task: Set up basic REST API resource and its deployment. (7853c35)
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Module Scaffolding & Core Setup' (Protocol in workflow.md) (bb86944)
 
-## Phase 2: Public Routes & Lambda Integration
-- [ ] Task: Write failing tests for `/login` endpoint (Red Phase).
-- [ ] Task: Implement `/login` resource and POST method (Green Phase).
-- [ ] Task: Configure Lambda proxy integration for `/login`.
-- [ ] Task: Verify functionality and commit changes.
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Public Routes & Lambda Integration' (Protocol in workflow.md)
+## Phase 2: Public Routes & Lambda Integration [checkpoint: 378039d]
+- [x] Task: Write failing tests for `/login` endpoint (Red Phase). (6847271)
+- [x] Task: Implement `/login` resource and POST method (Green Phase). (2014cdb)
+- [x] Task: Configure Lambda proxy integration for `/login`. (2014cdb)
+- [x] Task: Verify functionality and commit changes. (2014cdb)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Public Routes & Lambda Integration' (Protocol in workflow.md) (378039d)
 
 ## Phase 3: VPC Link & Private Proxy Integration
 - [ ] Task: Write failing tests for `/api/*` proxying (Red Phase).
