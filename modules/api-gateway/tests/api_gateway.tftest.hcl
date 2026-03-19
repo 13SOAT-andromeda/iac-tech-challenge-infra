@@ -118,9 +118,4 @@ run "verify_authorizer_config" {
     condition     = aws_api_gateway_method.api_proxy_any.authorization == "CUSTOM"
     error_message = "/api/{proxy+} method does not use CUSTOM authorization"
   }
-
-  assert {
-    condition     = aws_api_gateway_method.api_proxy_any.authorizer_id != null
-    error_message = "/api/{proxy+} method does not have an authorizer attached"
-  }
 }

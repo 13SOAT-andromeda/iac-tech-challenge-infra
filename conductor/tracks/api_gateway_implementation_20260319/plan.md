@@ -24,13 +24,13 @@ Implement a reusable Terraform module for AWS API Gateway (REST) that handles pu
 - [x] Task: Verify proxy functionality and commit changes. (9acb67f)
 - [x] Task: Conductor - User Manual Verification 'Phase 3: VPC Link & Private Proxy Integration' (Protocol in workflow.md) (1209170)
 
-## Phase 4: Token Authorization Implementation
-- [ ] Task: Write failing tests for authorized routes (Red Phase).
-- [ ] Task: Implement `aws_api_gateway_authorizer` (Token type) using the `X-AUTH-TOKEN` header.
-- [ ] Task: Attach the authorizer to all methods under the `/api/*` path (Green Phase).
-- [ ] Task: Configure default Gateway Responses for 401/403 errors.
-- [ ] Task: Verify authorization enforcement and commit changes.
-- [ ] Task: Conductor - User Manual Verification 'Phase 4: Token Authorization Implementation' (Protocol in workflow.md)
+## Phase 4: Token Authorization Implementation [checkpoint: 123ff19]
+- [x] Task: Write failing tests for authorized routes (Red Phase). (c353d91)
+- [x] Task: Implement `aws_api_gateway_authorizer` (Token type) using the `X-AUTH-TOKEN` header. (4d49ccc)
+- [x] Task: Attach the authorizer to all methods under the `/api/*` path (Green Phase). (4d49ccc)
+- [x] Task: Configure default Gateway Responses for 401/403 errors. (4d49ccc)
+- [x] Task: Verify authorization enforcement and commit changes. (4d49ccc)
+- [x] Task: Conductor - User Manual Verification 'Phase 4: Token Authorization Implementation' (Protocol in workflow.md) (123ff19)
 
 ## Phase 5: Environment Parity & Final Validation
 - [ ] Task: Validate the complete module in the `aws/` environment (Plan only).
