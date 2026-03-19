@@ -68,14 +68,14 @@ module "s3" {
   }
 }
 
-module "ecr_user_validation" {
-  source          = "../modules/ecr"
-  repository_name = "tech-challenge-user-validation-repo"
-}
-
 module "ecr_user_authentication" {
   source          = "../modules/ecr"
   repository_name = "tech-challenge-user-authentication-repo"
+}
+
+module "ecr_user_authorizer" {
+  source          = "../modules/ecr"
+  repository_name = "tech-challenge-user-authorizer-repo"
 }
 
 module "ecr_notification_service" {

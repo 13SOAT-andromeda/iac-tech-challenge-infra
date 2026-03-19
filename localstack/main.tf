@@ -118,14 +118,14 @@ module "s3" {
   }
 }
 
-module "ecr_user_validation" {
-  source          = "../modules/ecr"
-  repository_name = "tech-challenge-user-validation-repo"
-}
-
 module "ecr_user_authentication" {
   source          = "../modules/ecr"
   repository_name = "tech-challenge-user-authentication-repo"
+}
+
+module "ecr_user_authorizer" {
+  source          = "../modules/ecr"
+  repository_name = "tech-challenge-user-authorizer-repo"
 }
 
 module "ecr_notification_service" {
@@ -136,7 +136,7 @@ module "ecr_notification_service" {
 module "lambda_user_validation" {
   source                         = "../modules/lambda"
   function_name                  = "tech-challenge-user-validation"
-  image_uri                      = "${module.ecr_user_validation.repository_url}:latest"
+  image_uri                      = "${module.ecr_user_authentication.repository_url}:latest"
   role_arn                       = aws_iam_role.eks_local.arn
   reserved_concurrent_executions = 3
   environment_variables = {
@@ -149,7 +149,7 @@ module "lambda_user_validation" {
 module "lambda_user_authentication" {
   source                         = "../modules/lambda"
   function_name                  = "tech-challenge-user-authentication"
-  image_uri                      = "${module.ecr_user_authentication.repository_url}:latest"
+  image_uri                      = "${module.ecr_user_authorizer.repository_url}:latest"
   role_arn                       = aws_iam_role.eks_local.arn
   reserved_concurrent_executions = 3
   environment_variables = {
