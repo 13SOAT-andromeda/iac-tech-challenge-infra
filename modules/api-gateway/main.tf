@@ -74,9 +74,9 @@ resource "aws_api_gateway_integration" "login_lambda" {
 # --- Private Route: /api/* (Proxy to EKS LB via VPC Link) ---
 
 resource "aws_api_gateway_vpc_link" "this" {
-  name        = "tech-challenge-api-vpc-link"
-  description = "VPC Link for tech-challenge API Gateway"
-  target_arns = [var.lb_dns_name]
+  name        = "${var.name}-vpc-link"
+  description = "VPC Link for ${var.name}"
+  target_arns = var.target_arns
 }
 
 resource "aws_api_gateway_resource" "api" {

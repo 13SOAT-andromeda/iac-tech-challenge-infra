@@ -4,8 +4,21 @@ variable "function_name" {
 }
 
 variable "image_uri" {
-  description = "The URI of the container image in ECR"
+  description = "The URI of the container image in ECR (required if package_type is Image)"
   type        = string
+  default     = null
+}
+
+variable "package_type" {
+  description = "The package type for the Lambda function (Image or Zip)"
+  type        = string
+  default     = "Image"
+}
+
+variable "filename" {
+  description = "The path to the function's deployment package within the local filesystem (required if package_type is Zip)"
+  type        = string
+  default     = null
 }
 
 variable "role_arn" {

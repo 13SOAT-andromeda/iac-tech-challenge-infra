@@ -18,6 +18,7 @@ variables {
   vpc_id                = "vpc-12345678"
   subnet_ids            = ["subnet-12345", "subnet-67890"]
   lb_dns_name           = "test-lb.example.com"
+  target_arns           = ["arn:aws:elasticloadbalancing:us-east-1:123456789012:loadbalancer/net/test-lb/5d53c51c03d12345"]
   lab_role_arn          = "arn:aws:iam::123456789012:role/LabRole"
   auth_lambda_arn       = "arn:aws:lambda:us-east-1:123456789012:function:auth"
   authorizer_lambda_arn = "arn:aws:lambda:us-east-1:123456789012:function:authorizer"

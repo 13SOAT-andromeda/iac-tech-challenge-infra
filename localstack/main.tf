@@ -137,7 +137,8 @@ module "ecr_notification_service" {
 module "lambda_user_authentication" {
   source                         = "../modules/lambda"
   function_name                  = "tech-challenge-user-authentication"
-  image_uri                      = "${module.ecr_user_authentication.repository_url}:latest"
+  package_type                   = "Zip"
+  filename                       = "${path.module}/dummy.zip"
   role_arn                       = aws_iam_role.eks_local.arn
   reserved_concurrent_executions = 3
   environment_variables = {
@@ -150,7 +151,8 @@ module "lambda_user_authentication" {
 module "lambda_user_authorizer" {
   source                         = "../modules/lambda"
   function_name                  = "tech-challenge-user-authorizer"
-  image_uri                      = "${module.ecr_user_authorizer.repository_url}:latest"
+  package_type                   = "Zip"
+  filename                       = "${path.module}/dummy.zip"
   role_arn                       = aws_iam_role.eks_local.arn
   reserved_concurrent_executions = 3
   environment_variables = {
@@ -161,7 +163,8 @@ module "lambda_user_authorizer" {
 module "lambda_notification_service" {
   source                         = "../modules/lambda"
   function_name                  = "tech-challenge-notification-service"
-  image_uri                      = "${module.ecr_notification_service.repository_url}:latest"
+  package_type                   = "Zip"
+  filename                       = "${path.module}/dummy.zip"
   role_arn                       = aws_iam_role.eks_local.arn
   reserved_concurrent_executions = 3
 }
@@ -178,6 +181,7 @@ module "api_gateway" {
   vpc_id                = module.vpc.vpc_id
   subnet_ids            = module.vpc.private_subnets
   lb_dns_name           = "test-lb.localstack.external"
+  target_arns           = ["arn:aws:elasticloadbalancing:us-east-1:000000000000:loadbalancer/net/mock-lb/1234567890abcdef"]
   lab_role_arn          = aws_iam_role.eks_local.arn
   auth_lambda_arn       = module.lambda_user_authentication.function_arn
   authorizer_lambda_arn = module.lambda_user_authorizer.function_arn

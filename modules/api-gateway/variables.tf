@@ -19,6 +19,11 @@ variable "lb_dns_name" {
   type        = string
 }
 
+variable "target_arns" {
+  description = "List of ARNs of the network load balancers for the VPC Link"
+  type        = list(string)
+}
+
 variable "lab_role_arn" {
   description = "ARN of the IAM LabRole"
   type        = string
