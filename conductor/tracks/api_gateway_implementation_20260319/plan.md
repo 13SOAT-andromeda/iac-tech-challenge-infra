@@ -32,8 +32,8 @@ Implement a reusable Terraform module for AWS API Gateway (REST) that handles pu
 - [x] Task: Verify authorization enforcement and commit changes. (4d49ccc)
 - [x] Task: Conductor - User Manual Verification 'Phase 4: Token Authorization Implementation' (Protocol in workflow.md) (123ff19)
 
-## Phase 5: Environment Parity & Final Validation
-- [ ] Task: Validate the complete module in the `aws/` environment (Plan only).
-- [ ] Task: Implement specific LocalStack configurations/overrides if necessary in `localstack/` (Plan/Apply).
-- [ ] Task: Conduct final end-to-end verification of all routes.
-- [ ] Task: Conductor - User Manual Verification 'Phase 5: Environment Parity & Final Validation' (Protocol in workflow.md)
+## Phase 5: Environment Parity & Final Validation [checkpoint: 0d8d9bf]
+- [x] Task: Validate the complete module in the `aws/` environment (Plan only). (3b53ea8)
+- [x] Task: Implement specific LocalStack configurations/overrides if necessary in `localstack/` (Plan/Apply). (3b53ea8)
+- [x] Task: Conduct final end-to-end verification of all routes. (3b53ea8)
+- [x] Task: Conductor - User Manual Verification 'Phase 5: Environment Parity & Final Validation' (Protocol in workflow.md) (0d8d9bf)
