@@ -16,13 +16,13 @@ Implement a reusable Terraform module for AWS API Gateway (REST) that handles pu
 - [x] Task: Verify functionality and commit changes. (2014cdb)
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Public Routes & Lambda Integration' (Protocol in workflow.md) (378039d)
 
-## Phase 3: VPC Link & Private Proxy Integration
-- [ ] Task: Write failing tests for `/api/*` proxying (Red Phase).
-- [ ] Task: Implement `aws_api_gateway_vpc_link` for connection to the internal VPC.
-- [ ] Task: Implement `/api` resource and greedy child proxy (`{proxy+}`).
-- [ ] Task: Configure HTTP Proxy integration to the EKS Load Balancer DNS via the VPC Link (Green Phase).
-- [ ] Task: Verify proxy functionality and commit changes.
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: VPC Link & Private Proxy Integration' (Protocol in workflow.md)
+## Phase 3: VPC Link & Private Proxy Integration [checkpoint: 1209170]
+- [x] Task: Write failing tests for `/api/*` proxying (Red Phase). (d0dc74d)
+- [x] Task: Implement `aws_api_gateway_vpc_link` for connection to the internal VPC. (9acb67f)
+- [x] Task: Implement `/api` resource and greedy child proxy (`{proxy+}`). (9acb67f)
+- [x] Task: Configure HTTP Proxy integration to the EKS Load Balancer DNS via the VPC Link (Green Phase). (9acb67f)
+- [x] Task: Verify proxy functionality and commit changes. (9acb67f)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: VPC Link & Private Proxy Integration' (Protocol in workflow.md) (1209170)
 
 ## Phase 4: Token Authorization Implementation
 - [ ] Task: Write failing tests for authorized routes (Red Phase).
