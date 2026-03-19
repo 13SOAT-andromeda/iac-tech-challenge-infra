@@ -133,9 +133,9 @@ module "ecr_notification_service" {
   repository_name = "tech-challenge-notification-service-repo"
 }
 
-module "lambda_user_validation" {
+module "lambda_user_authentication" {
   source                         = "../modules/lambda"
-  function_name                  = "tech-challenge-user-validation"
+  function_name                  = "tech-challenge-user-authentication"
   image_uri                      = "${module.ecr_user_authentication.repository_url}:latest"
   role_arn                       = aws_iam_role.eks_local.arn
   reserved_concurrent_executions = 3
@@ -146,9 +146,9 @@ module "lambda_user_validation" {
   }
 }
 
-module "lambda_user_authentication" {
+module "lambda_user_authorizer" {
   source                         = "../modules/lambda"
-  function_name                  = "tech-challenge-user-authentication"
+  function_name                  = "tech-challenge-user-authorizer"
   image_uri                      = "${module.ecr_user_authorizer.repository_url}:latest"
   role_arn                       = aws_iam_role.eks_local.arn
   reserved_concurrent_executions = 3
