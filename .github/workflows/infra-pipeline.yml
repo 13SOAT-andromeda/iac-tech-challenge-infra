@@ -62,17 +62,6 @@ jobs:
         with:
           terraform_version: latest
 
-      - name: Bootstrap S3 Backend
-        run: |
-          if ! aws s3 ls "s3://$AWS_S3_TF_STATE_BUCKET_NAME" > /dev/null 2>&1; then
-            echo "State Bucket does not exist. Creating..."
-            aws s3 mb s3://$AWS_S3_TF_STATE_BUCKET_NAME --region $AWS_REGION
-            echo "Waiting for bucket propagation..."
-            sleep 15
-          else
-            echo "State Bucket already exists."
-          fi
-
       - name: Terraform Init
         id: init
         run: terraform init -backend-config="bucket=$AWS_S3_TF_STATE_BUCKET_NAME"
