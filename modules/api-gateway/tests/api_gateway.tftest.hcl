@@ -61,3 +61,37 @@ run "verify_login_route_exists" {
     error_message = "/login integration is not AWS_PROXY"
   }
 }
+
+run "verify_api_proxy_route_exists" {
+  command = plan
+
+  assert {
+    condition     = aws_api_gateway_vpc_link.this.name == "tech-challenge-api-vpc-link"
+    error_message = "VPC Link name did not match"
+  }
+
+  assert {
+    condition     = aws_api_gateway_resource.api.path_part == "api"
+    error_message = "/api resource path did not match"
+  }
+
+  assert {
+    condition     = aws_api_gateway_resource.api_proxy.path_part == "{proxy+}"
+    error_message = "/api/{proxy+} resource path did not match"
+  }
+
+  assert {
+    condition     = aws_api_gateway_method.api_proxy_any.http_method == "ANY"
+    error_message = "/api/{proxy+} method is not ANY"
+  }
+
+  assert {
+    condition     = aws_api_gateway_integration.api_proxy_lb.type == "HTTP_PROXY"
+    error_message = "/api/{proxy+} integration is not HTTP_PROXY"
+  }
+
+  assert {
+    condition     = aws_api_gateway_integration.api_proxy_lb.connection_type == "VPC_LINK"
+    error_message = "/api/{proxy+} connection type is not VPC_LINK"
+  }
+}
