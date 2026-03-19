@@ -22,6 +22,9 @@ resource "aws_api_gateway_deployment" "this" {
       aws_api_gateway_resource.api_proxy.id,
       aws_api_gateway_method.api_proxy_any.id,
       aws_api_gateway_integration.api_proxy_lb.id,
+      aws_api_gateway_authorizer.this.id,
+      aws_api_gateway_gateway_response.unauthorized.id,
+      aws_api_gateway_gateway_response.forbidden.id,
     ]))
   }
 
@@ -33,6 +36,8 @@ resource "aws_api_gateway_deployment" "this" {
   depends_on = [
     aws_api_gateway_integration.login_lambda,
     aws_api_gateway_integration.api_proxy_lb,
+    aws_api_gateway_gateway_response.unauthorized,
+    aws_api_gateway_gateway_response.forbidden,
   ]
 }
 
@@ -90,7 +95,8 @@ resource "aws_api_gateway_method" "api_proxy_any" {
   rest_api_id   = aws_api_gateway_rest_api.this.id
   resource_id   = aws_api_gateway_resource.api_proxy.id
   http_method   = "ANY"
-  authorization = "NONE" # Will be updated in Phase 4
+  authorization = "CUSTOM"
+  authorizer_id = aws_api_gateway_authorizer.this.id
 
   request_parameters = {
     "method.request.path.proxy" = true
@@ -111,5 +117,38 @@ resource "aws_api_gateway_integration" "api_proxy_lb" {
 
   request_parameters = {
     "integration.request.path.proxy" = "method.request.path.proxy"
+  }
+}
+
+# --- Authorization: Token Authorizer ---
+
+resource "aws_api_gateway_authorizer" "this" {
+  name                   = "tech-challenge-authorizer"
+  rest_api_id            = aws_api_gateway_rest_api.this.id
+  authorizer_uri         = "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/${var.authorizer_lambda_arn}/invocations"
+  authorizer_credentials = var.lab_role_arn
+  type                   = "TOKEN"
+  identity_source        = "method.request.header.X-AUTH-TOKEN"
+}
+
+# --- Gateway Responses: 401 & 403 ---
+
+resource "aws_api_gateway_gateway_response" "unauthorized" {
+  rest_api_id   = aws_api_gateway_rest_api.this.id
+  response_type = "UNAUTHORIZED"
+  status_code   = "401"
+
+  response_templates = {
+    "application/json" = "{\"message\":\"$context.error.messageString\"}"
+  }
+}
+
+resource "aws_api_gateway_gateway_response" "forbidden" {
+  rest_api_id   = aws_api_gateway_rest_api.this.id
+  response_type = "ACCESS_DENIED"
+  status_code   = "403"
+
+  response_templates = {
+    "application/json" = "{\"message\":\"$context.error.messageString\"}"
   }
 }
