@@ -8,6 +8,7 @@ To build a robust, simple, and consistent Infrastructure as Code (IaC) substrate
 ## Core Features
 - **ECR Repository Module:** A reusable Terraform module to create and manage container registries for storing EKS and future Lambda application images.
 - **Decoupled Lambda Compute Pattern:** A scalable architectural pattern where Lambda functions are managed in their respective microservice repositories, while the ECR foundations remain in the central infrastructure repository.
+- **API Gateway Module:** A reusable REST API Gateway module that handles public (/login) and private (/api/*) routes, incorporating Lambda authorization and VPC Link for secure EKS integration.
 - **S3 Storage Module:** A modular S3 implementation for securely storing Terraform state files and application artifacts (e.g., HTML templates) with versioning and encryption.
 - **DynamoDB Storage Module:** A consistent NoSQL implementation for managing session tokens and authentication metadata with TTL and pay-per-request billing.
 - **Environment Parity (Developer Optimized):** A streamlined approach to LocalStack integration that mirrors core AWS ECR functionality while maintaining a fast developer inner-loop.
