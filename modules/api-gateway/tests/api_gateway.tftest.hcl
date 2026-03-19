@@ -42,3 +42,22 @@ run "verify_api_gateway_basic_setup" {
     error_message = "API Gateway stage name did not match expected environment"
   }
 }
+
+run "verify_login_route_exists" {
+  command = plan
+
+  assert {
+    condition     = aws_api_gateway_resource.login.path_part == "login"
+    error_message = "/login resource path did not match"
+  }
+
+  assert {
+    condition     = aws_api_gateway_method.login_post.http_method == "POST"
+    error_message = "/login method is not POST"
+  }
+
+  assert {
+    condition     = aws_api_gateway_integration.login_lambda.type == "AWS_PROXY"
+    error_message = "/login integration is not AWS_PROXY"
+  }
+}
