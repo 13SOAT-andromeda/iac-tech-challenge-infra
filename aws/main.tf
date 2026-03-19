@@ -8,11 +8,15 @@ terraform {
   }
 
   backend "s3" {
+<<<<<<< HEAD
     bucket  = "tech-challenge-bucket-andromeda-aws"
+=======
+>>>>>>> develop
     key     = "terraform.tfstate"
     region  = "us-east-1"
     encrypt = true
   }
+
 }
 
 provider "aws" {
@@ -83,6 +87,7 @@ module "ecr_notification_service" {
   repository_name = "tech-challenge-notification-service-repo"
 }
 
+<<<<<<< HEAD
 module "lambda_user_validation" {
   source                         = "../modules/lambda"
   function_name                  = "tech-challenge-user-validation"
@@ -115,6 +120,8 @@ module "lambda_notification_service" {
   reserved_concurrent_executions = 3
 }
 
+=======
+>>>>>>> develop
 module "dynamodb" {
   source     = "../modules/dynamodb"
   table_name = "user-authentication-token"

@@ -8,7 +8,7 @@
 ## Cloud Services (AWS)
 - **VPC (Virtual Private Cloud):** Networking foundation with public and private subnets, internet gateways, and EKS-specific tagging.
 - **EKS (Elastic Kubernetes Service):** Container orchestration for running stateless web services and microservices.
-- **Lambda (Serverless):** Container-based serverless functions for asynchronous and auth tasks.
+- **Lambda (Serverless):** Container-based serverless functions for asynchronous and auth tasks, managed via a decoupled compute pattern.
 - **ECR (Elastic Container Registry):** Storage and management of Docker images for EKS and future Lambda functions.
 - **S3 (Simple Storage Service):** Secure object storage for Terraform state and CI/CD artifacts.
 - **RDS (PostgreSQL):** Managed relational database service for application data persistence.
