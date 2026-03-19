@@ -95,3 +95,32 @@ run "verify_api_proxy_route_exists" {
     error_message = "/api/{proxy+} connection type is not VPC_LINK"
   }
 }
+
+run "verify_authorizer_config" {
+  command = plan
+
+  assert {
+    condition     = aws_api_gateway_authorizer.this.name == "tech-challenge-authorizer"
+    error_message = "Authorizer name did not match"
+  }
+
+  assert {
+    condition     = aws_api_gateway_authorizer.this.type == "TOKEN"
+    error_message = "Authorizer type is not TOKEN"
+  }
+
+  assert {
+    condition     = aws_api_gateway_authorizer.this.identity_source == "method.request.header.X-AUTH-TOKEN"
+    error_message = "Authorizer identity source did not match expected header"
+  }
+
+  assert {
+    condition     = aws_api_gateway_method.api_proxy_any.authorization == "CUSTOM"
+    error_message = "/api/{proxy+} method does not use CUSTOM authorization"
+  }
+
+  assert {
+    condition     = aws_api_gateway_method.api_proxy_any.authorizer_id != null
+    error_message = "/api/{proxy+} method does not have an authorizer attached"
+  }
+}
