@@ -5,16 +5,17 @@
 - **AWS Provider:** Used to manage standard cloud resources in the `us-east-1` region.
 - **LocalStack Provider:** Enables local development and testing by emulating AWS services (ECR, VPC, EKS, RDS).
 
-## Cloud Services (AWS)
+## Cloud Services (AWS - Infrastructure Layer)
 - **VPC (Virtual Private Cloud):** Networking foundation with public and private subnets, internet gateways, and EKS-specific tagging.
 - **EKS (Elastic Kubernetes Service):** Container orchestration for running stateless web services and microservices.
 - **Lambda (Serverless):** Container-based serverless functions for asynchronous and auth tasks, managed via a decoupled compute pattern.
-- **API Gateway (REST):** Secure entry point for all services, providing authentication, authorization, and VPC Link integration.
+- **API Gateway (HTTP v2):** Secure entry point for all services, providing authentication, authorization, and VPC Link integration.
 - **ECR (Elastic Container Registry):** Storage and management of Docker images for EKS and future Lambda functions.
 - **S3 (Simple Storage Service):** Secure object storage for Terraform state and CI/CD artifacts.
+
+## External Services (Data Layer - Managed in `iac-tech-challenge-data`)
 - **RDS (PostgreSQL):** Managed relational database service for application data persistence.
 - **DynamoDB:** NoSQL database for session management and token storage.
-- **GitHub Actions:** Automated CI/CD platform for infrastructure validation and deployment.
 
 ## Development & Operations
 - **LocalStack:** Local environment emulation for testing infrastructure changes without incurring AWS costs.
