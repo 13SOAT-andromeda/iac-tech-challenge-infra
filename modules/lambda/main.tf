@@ -1,8 +1,12 @@
 resource "aws_lambda_function" "this" {
   function_name = var.function_name
-  package_type  = "Image"
-  image_uri     = var.image_uri
+  package_type  = var.package_type
+  image_uri     = var.package_type == "Image" ? var.image_uri : null
+  filename      = var.package_type == "Zip" ? var.filename : null
   role          = var.role_arn
+
+  handler = var.package_type == "Zip" ? "index.handler" : null
+  runtime = var.package_type == "Zip" ? "nodejs18.x" : null
 
   timeout     = var.timeout
   memory_size = var.memory_size

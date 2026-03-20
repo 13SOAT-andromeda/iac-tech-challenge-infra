@@ -47,14 +47,6 @@ module "eks" {
 }
 
 
-module "rds" {
-  source                = "../modules/rds"
-  db_password           = var.db_password
-  vpc_id                = module.vpc.vpc_id
-  subnet_ids            = module.vpc.private_subnets
-  eks_security_group_id = module.eks.cluster_security_group_id
-}
-
 module "ecr" {
   source          = "../modules/ecr"
   repository_name = var.repository_name
@@ -68,25 +60,19 @@ module "s3" {
   }
 }
 
-module "ecr_user_validation" {
-  source          = "../modules/ecr"
-  repository_name = "tech-challenge-user-validation-repo"
-}
-
 module "ecr_user_authentication" {
   source          = "../modules/ecr"
   repository_name = "tech-challenge-user-authentication-repo"
 }
 
+module "ecr_user_authorizer" {
+  source          = "../modules/ecr"
+  repository_name = "tech-challenge-user-authorizer-repo"
+}
+
 module "ecr_notification_service" {
   source          = "../modules/ecr"
   repository_name = "tech-challenge-notification-service-repo"
-}
-
-module "dynamodb" {
-  source     = "../modules/dynamodb"
-  table_name = "user-authentication-token"
-  hash_key   = "token_id"
 }
 
 data "aws_caller_identity" "current" {}
