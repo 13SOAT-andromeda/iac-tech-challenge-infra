@@ -1,154 +1,110 @@
-resource "aws_api_gateway_rest_api" "this" {
-  name        = var.name
-  description = "API Gateway for tech-challenge services"
+# --- HTTP API Gateway ---
 
-  endpoint_configuration {
-    types = ["REGIONAL"]
+resource "aws_apigatewayv2_api" "this" {
+  name          = var.name
+  protocol_type = "HTTP"
+  description   = "HTTP API for tech-challenge services"
+}
+
+resource "aws_apigatewayv2_stage" "this" {
+  api_id      = aws_apigatewayv2_api.this.id
+  name        = var.environment
+  auto_deploy = true
+
+  access_log_settings {
+    destination_arn = aws_cloudwatch_log_group.api_gw.arn
+    format          = jsonencode({
+      requestId               = "$context.requestId"
+      sourceIp                = "$context.identity.sourceIp"
+      requestTime             = "$context.requestTime"
+      httpMethod              = "$context.httpMethod"
+      resourcePath            = "$context.resourcePath"
+      status                  = "$context.status"
+      protocol                = "$context.protocol"
+      responseLength          = "$context.responseLength"
+      integrationErrorMessage = "$context.integrationErrorMessage"
+      authorizerError         = "$context.authorizer.error"
+    })
   }
 }
 
-resource "aws_api_gateway_deployment" "this" {
-  rest_api_id = aws_api_gateway_rest_api.this.id
-
-  # Force deployment on any change to the REST API
-  triggers = {
-    redeployment = sha1(jsonencode([
-      aws_api_gateway_rest_api.this.id,
-      aws_api_gateway_resource.login.id,
-      aws_api_gateway_method.login_post.id,
-      aws_api_gateway_integration.login_lambda.id,
-      aws_api_gateway_vpc_link.this.id,
-      aws_api_gateway_resource.api.id,
-      aws_api_gateway_resource.api_proxy.id,
-      aws_api_gateway_method.api_proxy_any.id,
-      aws_api_gateway_integration.api_proxy_lb.id,
-      aws_api_gateway_authorizer.this.id,
-      aws_api_gateway_gateway_response.unauthorized.id,
-      aws_api_gateway_gateway_response.forbidden.id,
-    ]))
-  }
-
-  lifecycle {
-    create_before_destroy = true
-  }
-
-  # Ensure deployment happens after all resources are created
-  depends_on = [
-    aws_api_gateway_integration.login_lambda,
-    aws_api_gateway_integration.api_proxy_lb,
-    aws_api_gateway_gateway_response.unauthorized,
-    aws_api_gateway_gateway_response.forbidden,
-  ]
+resource "aws_cloudwatch_log_group" "api_gw" {
+  name              = "/aws/api-gw/${aws_apigatewayv2_api.this.name}"
+  retention_in_days = 7
 }
 
-resource "aws_api_gateway_stage" "this" {
-  deployment_id = aws_api_gateway_deployment.this.id
-  rest_api_id   = aws_api_gateway_rest_api.this.id
-  stage_name    = var.environment
+# --- VPC Link for ALB Integration ---
+
+resource "aws_apigatewayv2_vpc_link" "this" {
+  name               = "${var.name}-vpc-link"
+  security_group_ids = var.security_group_ids
+  subnet_ids         = var.subnet_ids
 }
 
-# --- Public Route: /login ---
+# --- Authorizer: Lambda Token Authorizer ---
 
-resource "aws_api_gateway_resource" "login" {
-  rest_api_id = aws_api_gateway_rest_api.this.id
-  parent_id   = aws_api_gateway_rest_api.this.root_resource_id
-  path_part   = "login"
+resource "aws_apigatewayv2_authorizer" "this" {
+  api_id                           = aws_apigatewayv2_api.this.id
+  authorizer_type                  = "REQUEST"
+  authorizer_uri                   = "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/${var.authorizer_lambda_arn}/invocations"
+  name                             = "tech-challenge-authorizer"
+  identity_sources                 = ["$request.header.Authorization"]
+  authorizer_payload_format_version = "2.0"
+  enable_simple_responses          = true
 }
 
-resource "aws_api_gateway_method" "login_post" {
-  rest_api_id   = aws_api_gateway_rest_api.this.id
-  resource_id   = aws_api_gateway_resource.login.id
-  http_method   = "POST"
-  authorization = "NONE"
+# --- Integrations ---
+
+# 1. /login POST -> Auth Lambda (Public but now with Authorizer as requested)
+resource "aws_apigatewayv2_integration" "login" {
+  api_id           = aws_apigatewayv2_api.this.id
+  integration_type = "AWS_PROXY"
+  integration_uri  = "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/${var.auth_lambda_arn}/invocations"
+  payload_format_version = "2.0"
 }
 
-resource "aws_api_gateway_integration" "login_lambda" {
-  rest_api_id             = aws_api_gateway_rest_api.this.id
-  resource_id             = aws_api_gateway_resource.login.id
-  http_method             = aws_api_gateway_method.login_post.http_method
-  integration_http_method = "POST"
-  type                    = "AWS_PROXY"
-  uri                     = "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/${var.auth_lambda_arn}/invocations"
+# 2. /api/{proxy+} -> EKS ALB via VPC Link (Private)
+# Commented out because AWS validates that the Listener ARN exists at creation time.
+/*
+resource "aws_apigatewayv2_integration" "api_proxy" {
+  api_id           = aws_apigatewayv2_api.this.id
+  integration_type = "HTTP_PROXY"
+  integration_uri  = var.lb_listener_arn
+  connection_type  = "VPC_LINK"
+  connection_id    = aws_apigatewayv2_vpc_link.this.id
+  integration_method = "ANY"
+  payload_format_version = "1.0"
+}
+*/
+
+# --- Routes ---
+
+# /login with Authorization (as requested)
+resource "aws_apigatewayv2_route" "login" {
+  api_id             = aws_apigatewayv2_api.this.id
+  route_key          = "POST /login"
+  target             = "integrations/${aws_apigatewayv2_integration.login.id}"
+  authorization_type = "CUSTOM"
+  authorizer_id      = aws_apigatewayv2_authorizer.this.id
 }
 
-# --- Private Route: /api/* (Proxy to EKS LB via VPC Link) ---
-
-resource "aws_api_gateway_vpc_link" "this" {
-  name        = "${var.name}-vpc-link"
-  description = "VPC Link for ${var.name}"
-  target_arns = var.target_arns
+# Private /api/{proxy+} with Authorization
+/*
+resource "aws_apigatewayv2_route" "api_proxy" {
+  api_id             = aws_apigatewayv2_api.this.id
+  route_key          = "ANY /api/{proxy+}"
+  target             = "integrations/${aws_apigatewayv2_integration.api_proxy.id}"
+  authorization_type = "CUSTOM"
+  authorizer_id      = aws_apigatewayv2_authorizer.this.id
 }
+*/
 
-resource "aws_api_gateway_resource" "api" {
-  rest_api_id = aws_api_gateway_rest_api.this.id
-  parent_id   = aws_api_gateway_rest_api.this.root_resource_id
-  path_part   = "api"
-}
+# --- Lambda Permission ---
 
-resource "aws_api_gateway_resource" "api_proxy" {
-  rest_api_id = aws_api_gateway_rest_api.this.id
-  parent_id   = aws_api_gateway_resource.api.id
-  path_part   = "{proxy+}"
-}
-
-resource "aws_api_gateway_method" "api_proxy_any" {
-  rest_api_id   = aws_api_gateway_rest_api.this.id
-  resource_id   = aws_api_gateway_resource.api_proxy.id
-  http_method   = "ANY"
-  authorization = "CUSTOM"
-  authorizer_id = aws_api_gateway_authorizer.this.id
-
-  request_parameters = {
-    "method.request.path.proxy" = true
-  }
-}
-
-resource "aws_api_gateway_integration" "api_proxy_lb" {
-  rest_api_id             = aws_api_gateway_rest_api.this.id
-  resource_id             = aws_api_gateway_resource.api_proxy.id
-  http_method             = aws_api_gateway_method.api_proxy_any.http_method
-  integration_http_method = "ANY"
-  type                    = "HTTP_PROXY"
-  uri                     = "http://${var.lb_dns_name}/{proxy}"
-  connection_type         = "VPC_LINK"
-  connection_id           = aws_api_gateway_vpc_link.this.id
-
-  cache_key_parameters = ["method.request.path.proxy"]
-
-  request_parameters = {
-    "integration.request.path.proxy" = "method.request.path.proxy"
-  }
-}
-
-# --- Authorization: Token Authorizer ---
-
-resource "aws_api_gateway_authorizer" "this" {
-  name                   = "tech-challenge-authorizer"
-  rest_api_id            = aws_api_gateway_rest_api.this.id
-  authorizer_uri         = "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/${var.authorizer_lambda_arn}/invocations"
-  authorizer_credentials = var.lab_role_arn
-  type                   = "TOKEN"
-  identity_source        = "method.request.header.X-AUTH-TOKEN"
-}
-
-# --- Gateway Responses: 401 & 403 ---
-
-resource "aws_api_gateway_gateway_response" "unauthorized" {
-  rest_api_id   = aws_api_gateway_rest_api.this.id
-  response_type = "UNAUTHORIZED"
-  status_code   = "401"
-
-  response_templates = {
-    "application/json" = "{\"message\":\"$context.error.messageString\"}"
-  }
-}
-
-resource "aws_api_gateway_gateway_response" "forbidden" {
-  rest_api_id   = aws_api_gateway_rest_api.this.id
-  response_type = "ACCESS_DENIED"
-  status_code   = "403"
-
-  response_templates = {
-    "application/json" = "{\"message\":\"$context.error.messageString\"}"
-  }
+resource "aws_lambda_permission" "api_gateway" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = var.authorizer_lambda_arn
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_apigatewayv2_api.this.execution_arn}/*/*"
 }

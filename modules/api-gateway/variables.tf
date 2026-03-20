@@ -1,5 +1,5 @@
 variable "name" {
-  description = "Name for the API Gateway"
+  description = "Name for the HTTP API Gateway"
   type        = string
   default     = "tech-challenge-api"
 }
@@ -14,14 +14,14 @@ variable "subnet_ids" {
   type        = list(string)
 }
 
-variable "lb_dns_name" {
-  description = "DNS name of the EKS Load Balancer"
-  type        = string
+variable "security_group_ids" {
+  description = "Security groups for the VPC Link"
+  type        = list(string)
 }
 
-variable "target_arns" {
-  description = "List of ARNs of the network load balancers for the VPC Link"
-  type        = list(string)
+variable "lb_listener_arn" {
+  description = "ARN of the EKS Load Balancer Listener"
+  type        = string
 }
 
 variable "lab_role_arn" {

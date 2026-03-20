@@ -89,4 +89,17 @@ module "dynamodb" {
   hash_key   = "token_id"
 }
 
+module "api_gateway" {
+  source                = "../modules/api-gateway"
+  name                  = "tech-challenge-api"
+  vpc_id                = module.vpc.vpc_id
+  subnet_ids            = module.vpc.private_subnets
+  security_group_ids    = [module.eks.cluster_security_group_id]
+  lb_listener_arn       = var.lb_listener_arn
+  lab_role_arn          = var.cluster_role_arn
+  auth_lambda_arn       = var.auth_lambda_arn
+  authorizer_lambda_arn = var.authorizer_lambda_arn
+  environment           = "dev"
+}
+
 data "aws_caller_identity" "current" {}
