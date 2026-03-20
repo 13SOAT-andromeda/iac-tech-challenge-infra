@@ -1,0 +1,8 @@
+{
+  "track_id": "api_gateway_implementation_20260319",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-03-19T10:00:00Z",
+  "updated_at": "2026-03-19T10:00:00Z",
+  "description": "Implement a new module from aws api-gateway. This module should to follow the same rules from other modules as ARN LAB Role. This configuration should to be more clean and simple as possible. This api gateway should to have a route called /login that you received and body with {document, password}, call the lambda tech-challenge-user-authentication, and if user authentication correctly return the correspondent body from lambda response. But for private routes, is need to create a prefix /api, each call to this prefix should access the VPC and call correctly route in the loadbalancer from EKS, and call correct route from the apis. But to realize the authentication call, the api gateway should to call a lambda called tech-challenge-user-authorizer that should received and parameter from Header Called X-AUTH-TOKEN and Received the X-USER-ID from headers to validate if the AUTH-TOKEN is valid and enable to complete the request. Rules: keep consistency, try to be more clean as possible, ensure that arn rules is follow, ensure correct implementation and should to implements a correspondent implementation for localstack. For both implementations from aws and localstack use the mcps from aws and localstack"
+}
