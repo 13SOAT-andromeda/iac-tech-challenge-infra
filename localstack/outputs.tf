@@ -3,14 +3,14 @@ output "repository_url" {
   value       = module.ecr.repository_url
 }
 
-output "ecr_user_validation_url" {
+output "ecr_user_authentication_url" {
   description = "The URL of the ECR repository for user validation"
-  value       = module.ecr_user_validation.repository_url
+  value       = module.ecr_user_authentication.repository_url
 }
 
-output "ecr_user_authentication_url" {
+output "ecr_user_authorizer_url" {
   description = "The URL of the ECR repository for user authentication"
-  value       = module.ecr_user_authentication.repository_url
+  value       = module.ecr_user_authorizer.repository_url
 }
 
 output "ecr_notification_service_url" {
@@ -18,14 +18,14 @@ output "ecr_notification_service_url" {
   value       = module.ecr_notification_service.repository_url
 }
 
-output "lambda_user_validation_arn" {
-  description = "The ARN of the user validation lambda"
-  value       = module.lambda_user_validation.function_arn
-}
-
 output "lambda_user_authentication_arn" {
   description = "The ARN of the user authentication lambda"
   value       = module.lambda_user_authentication.function_arn
+}
+
+output "lambda_user_authorizer_arn" {
+  description = "The ARN of the user authorizer lambda"
+  value       = module.lambda_user_authorizer.function_arn
 }
 
 output "lambda_notification_service_arn" {
@@ -37,3 +37,4 @@ output "state_bucket_arn" {
   description = "The ARN of the S3 bucket for state and artifacts"
   value       = module.s3.bucket_arn
 }
+
