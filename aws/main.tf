@@ -75,5 +75,4 @@ module "ecr_notification_service" {
   repository_name = "tech-challenge-notification-service-repo"
 }
 
-
 data "aws_caller_identity" "current" {}
