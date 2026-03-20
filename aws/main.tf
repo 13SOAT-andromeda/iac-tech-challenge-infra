@@ -47,14 +47,6 @@ module "eks" {
 }
 
 
-module "rds" {
-  source                = "../modules/rds"
-  db_password           = var.db_password
-  vpc_id                = module.vpc.vpc_id
-  subnet_ids            = module.vpc.private_subnets
-  eks_security_group_id = module.eks.cluster_security_group_id
-}
-
 module "ecr" {
   source          = "../modules/ecr"
   repository_name = var.repository_name
@@ -83,11 +75,6 @@ module "ecr_notification_service" {
   repository_name = "tech-challenge-notification-service-repo"
 }
 
-module "dynamodb" {
-  source     = "../modules/dynamodb"
-  table_name = "user-authentication-token"
-  hash_key   = "token_id"
-}
 
 module "api_gateway" {
   source                = "../modules/api-gateway"
