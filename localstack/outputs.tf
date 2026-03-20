@@ -38,7 +38,3 @@ output "state_bucket_arn" {
   value       = module.s3.bucket_arn
 }
 
-output "api_gateway_url" {
-  description = "The URL of the API Gateway"
-  value       = module.api_gateway.api_gateway_url
-}

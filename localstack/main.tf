@@ -159,17 +159,3 @@ module "lambda_notification_service" {
   role_arn                       = aws_iam_role.eks_local.arn
   reserved_concurrent_executions = 3
 }
-
-
-module "api_gateway" {
-  source                = "../modules/api-gateway"
-  name                  = "tech-challenge-api-local"
-  vpc_id                = module.vpc.vpc_id
-  subnet_ids            = module.vpc.private_subnets
-  lb_dns_name           = "test-lb.localstack.external"
-  target_arns           = ["arn:aws:elasticloadbalancing:us-east-1:000000000000:loadbalancer/net/mock-lb/1234567890abcdef"]
-  lab_role_arn          = aws_iam_role.eks_local.arn
-  auth_lambda_arn       = module.lambda_user_authentication.function_arn
-  authorizer_lambda_arn = module.lambda_user_authorizer.function_arn
-  environment           = "localstack"
-}
