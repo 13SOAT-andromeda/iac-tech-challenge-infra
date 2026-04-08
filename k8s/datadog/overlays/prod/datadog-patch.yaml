@@ -1,0 +1,21 @@
+kind: "DatadogAgent"
+apiVersion: "datadoghq.com/v2alpha1"
+metadata:
+  name: "datadog"
+spec:
+  global:
+    clusterName: "eks-tech-challenge-prod"
+    site: "us5.datadoghq.com"
+    tags:
+      - "env:prod"
+  override:
+    nodeAgent:
+      extraConfd:
+        configDataMap:
+          http_check.yaml: |
+            init_config:
+
+            instances:
+              - name: tech-challenge-api-health
+                url: http://tech-challenge-api-svc.default.svc.cluster.local/health
+                timeout: 5
