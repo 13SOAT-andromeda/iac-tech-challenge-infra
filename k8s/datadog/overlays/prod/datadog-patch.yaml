@@ -4,7 +4,7 @@ metadata:
   name: "datadog"
 spec:
   global:
-    clusterName: "eks-tech-challenge-prod"
+    clusterName: "eks-tech-challenge"
     site: "us5.datadoghq.com"
     tags:
       - "env:prod"
