@@ -1,8 +1,0 @@
-{
-  "track_id": "dynamodb_implementation_20260315",
-  "type": "feature",
-  "status": "new",
-  "created_at": "2026-03-15T12:00:00Z",
-  "updated_at": "2026-03-15T12:00:00Z",
-  "description": "Implementation of aws dynamodb service with support to local development using localstack. This database will be used to storage jwt user authentication tokens (revocation list)."
-}

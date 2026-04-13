@@ -1,4 +1,3 @@
-# Test configuration for Lambda module
 variables {
   function_name                  = "test-lambda"
   image_uri                      = "123456789012.dkr.ecr.us-east-1.amazonaws.com/test-repo:latest"
