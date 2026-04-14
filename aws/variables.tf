@@ -21,3 +21,9 @@ variable "bucket_name" {
   type        = string
   default     = "tech-challenge-bucket-andromeda-aws"
 }
+
+variable "node_instance_types" {
+  description = "EC2 instance types for the EKS node group"
+  type        = list(string)
+  default     = ["t3.medium"]
+}
