@@ -44,6 +44,7 @@ module "eks" {
   role_name                = var.role_name
   create_policy_attachment = false
   repository_url           = module.ecr.repository_url
+  instance_types           = var.node_instance_types
 }
 
 

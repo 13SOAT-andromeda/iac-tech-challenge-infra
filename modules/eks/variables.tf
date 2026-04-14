@@ -35,3 +35,9 @@ variable "repository_url" {
   type        = string
   default     = ""
 }
+
+variable "instance_types" {
+  description = "EC2 instance types for the EKS node group"
+  type        = list(string)
+  default     = ["t3.medium"]
+}
