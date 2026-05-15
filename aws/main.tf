@@ -44,6 +44,7 @@ module "eks" {
   role_name                = var.role_name
   create_policy_attachment = false
   repository_url           = module.ecr.repository_url
+  instance_types           = var.node_instance_types
 }
 
 
@@ -73,6 +74,48 @@ module "ecr_user_authorizer" {
 module "ecr_notification_service" {
   source          = "../modules/ecr"
   repository_name = "tech-challenge-notification-service-repo"
+}
+
+# Catalog API Infrastructure
+resource "aws_sns_topic" "catalog_events" {
+  name = "catalog-events-topic"
+}
+
+module "ecr_catalog" {
+  source          = "../modules/ecr"
+  repository_name = "tech-challenge-catalog-api-repo"
+}
+
+module "sqs_catalog_events" {
+  source     = "../modules/sqs"
+  queue_name = "catalog-events-queue"
+}
+
+resource "aws_sns_topic_subscription" "catalog_events_sqs_target" {
+  topic_arn = aws_sns_topic.catalog_events.arn
+  protocol  = "sqs"
+  endpoint  = module.sqs_catalog_events.queue_arn
+}
+
+resource "aws_sqs_queue_policy" "catalog_events_allow_sns" {
+  queue_url = module.sqs_catalog_events.queue_url
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect    = "Allow"
+        Principal = "*"
+        Action    = "sqs:SendMessage"
+        Resource  = module.sqs_catalog_events.queue_arn
+        Condition = {
+          ArnEquals = {
+            "aws:SourceArn" = aws_sns_topic.catalog_events.arn
+          }
+        }
+      }
+    ]
+  })
 }
 
 data "aws_caller_identity" "current" {}

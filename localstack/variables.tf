@@ -9,3 +9,9 @@ variable "bucket_name" {
   type        = string
   default     = "tech-challenge-bucket-andromeda-local"
 }
+
+variable "image_tag" {
+  description = "The tag of the image to deploy"
+  type        = string
+  default     = "latest"
+}
