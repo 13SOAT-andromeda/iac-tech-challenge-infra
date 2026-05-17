@@ -4,18 +4,20 @@ metadata:
   name: "datadog"
 spec:
   global:
-    clusterName: "eks-tech-challenge"
+    clusterName: "tech-challenge-local"
     site: "us5.datadoghq.com"
     tags:
       - "env:dev"
   override:
     nodeAgent:
+      env:
+        - name: DD_HOSTNAME
+          value: tech-challenge-local
+        - name: DD_KUBELET_TLS_VERIFY
+          value: "false"
       extraConfd:
         configDataMap:
           http_check.yaml: |
             init_config:
 
-            instances:
-              - name: tech-challenge-api-health
-                url: http://tech-challenge-api-svc.default.svc.cluster.local/health
-                timeout: 5
+            instances: []
