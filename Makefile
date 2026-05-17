@@ -34,7 +34,7 @@ deps-datadog:
 	@echo "Applying Datadog secret..."
 	@envsubst < k8s/datadog/base/datadog-secret.yaml | kubectl apply -f -
 	@echo "Applying Datadog Agent..."
-	kubectl apply -k k8s/datadog/overlays/local
+	kubectl apply -k k8s/datadog/overlays/dev
 
 deps-ingress:
 	@echo "Installing NGINX Ingress Controller..."
