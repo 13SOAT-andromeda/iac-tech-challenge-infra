@@ -3,3 +3,4 @@ kind: Kustomization
 
 resources:
   - datadog-agent.yaml
+  - datadog-secret.yaml
